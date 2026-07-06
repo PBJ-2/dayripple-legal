@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DayRipple 초대</title>
+<meta property="og:title" content="DayRipple 초대장" />
+<meta property="og:description" content="우리 공간에 초대되었어요. 함께 쓰는 가장 가벼운 달력, DayRipple." />
+<style>
+  :root { --coral:#F2856B; --ink:#241F1C; --muted:#8B8F99; --bg:#F5F7F4; --card:#FFFFFF; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--bg); color:var(--ink); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .card { background:var(--card); border-radius:24px; padding:32px 24px; max-width:400px; width:100%;
+    box-shadow:0 12px 40px rgba(40,40,80,0.08); text-align:center; }
+  .logo { width:56px; height:56px; border-radius:18px; background:var(--coral); margin:0 auto 18px;
+    display:flex; align-items:center; justify-content:center; font-size:28px; }
+  h1 { font-size:22px; margin:0 0 6px; letter-spacing:-0.5px; }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 24px; line-height:1.5; }
+  .codebox { background:var(--bg); border-radius:14px; padding:16px; margin-bottom:22px; }
+  .codelabel { color:var(--muted); font-size:12px; font-weight:600; margin-bottom:6px; }
+  .code { font-size:32px; font-weight:800; letter-spacing:6px; color:var(--ink); }
+  .btn { display:block; width:100%; padding:16px; border-radius:14px; border:none; font-size:16px;
+    font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:10px; }
+  .btn-primary { background:var(--coral); color:#fff; }
+  .btn-store { background:#fff; color:var(--ink); border:1px solid #EEF0F4; font-weight:600; font-size:14px; }
+  .hint { color:var(--muted); font-size:12px; margin-top:16px; line-height:1.5; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🗓️</div>
+    <h1>우리 공간에 초대되었어요</h1>
+    <p class="sub">함께 쓰는 가장 가벼운 달력, DayRipple.<br />아래 버튼으로 앱을 열면 바로 참여돼요.</p>
+    <div class="codebox">
+      <div class="codelabel">초대 코드</div>
+      <div class="code" id="code">------</div>
+    </div>
+    <a class="btn btn-primary" id="openApp" href="#">앱에서 열기</a>
+    <a class="btn btn-store" id="appstore" href="https://apps.apple.com/app/id6785336978">App Store에서 받기</a>
+    <a class="btn btn-store" id="playstore" href="https://play.google.com/store/apps/details?id=com.dayripple.app">Google Play에서 받기</a>
+    <p class="hint">앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.</p>
+  </div>
+<script>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var raw = (params.get('code') || '').replace(/[^a-z0-9]/gi, '').toUpperCase().slice(0, 8);
+    var deepLink = 'dayripple://join?code=' + encodeURIComponent(raw);
+    if (raw) { document.getElementById('code').textContent = raw; }
+    document.getElementById('openApp').setAttribute('href', deepLink);
+    // 페이지 진입 시 앱 자동 열기 시도(설치돼 있으면 바로 앱으로). 실패해도 버튼/스토어 링크로 폴백.
+    if (raw) {
+      setTimeout(function () { location.href = deepLink; }, 400);
+    }
+  })();
+</script>
+</body>
+</html>
