@@ -23,7 +23,9 @@
   .btn { display:block; width:100%; padding:16px; border-radius:14px; border:none; font-size:16px;
     font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:10px; }
   .btn-primary { background:var(--coral); color:#fff; }
-  .btn-store { background:#fff; color:var(--ink); border:1px solid #EEF0F4; font-weight:600; font-size:14px; }
+  .btn-copy { background:#fff; color:var(--ink); border:1px solid #EEF0F4; font-weight:600; font-size:14px; }
+  .btn[aria-disabled="true"], .btn:disabled { opacity:0.45; cursor:default; }
+  .store-note { color:var(--muted); font-size:12px; margin:14px 0 0; line-height:1.5; }
   .hint { color:var(--muted); font-size:12px; margin-top:16px; line-height:1.5; }
 </style>
 </head>
@@ -37,21 +39,63 @@
       <div class="code" id="code">------</div>
     </div>
     <a class="btn btn-primary" id="openApp" href="#">앱에서 열기</a>
-    <a class="btn btn-store" id="appstore" href="https://apps.apple.com/app/id6785336978">App Store에서 받기</a>
-    <a class="btn btn-store" id="playstore" href="https://play.google.com/store/apps/details?id=com.dayripple.app">Google Play에서 받기</a>
-    <p class="hint">앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.</p>
+    <button class="btn btn-copy" id="copyCode" type="button">초대 코드 복사</button>
+    <p class="store-note">App Store와 Google Play 다운로드 버튼은 공개 스토어 페이지가 열린 뒤 제공됩니다.</p>
+    <p class="hint" id="hint">앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.</p>
   </div>
 <script>
   (function () {
     var params = new URLSearchParams(location.search);
     var raw = (params.get('code') || '').replace(/[^a-z0-9]/gi, '').toUpperCase().slice(0, 8);
     var deepLink = 'dayripple://join?code=' + encodeURIComponent(raw);
-    if (raw) { document.getElementById('code').textContent = raw; }
-    document.getElementById('openApp').setAttribute('href', deepLink);
-    // 페이지 진입 시 앱 자동 열기 시도(설치돼 있으면 바로 앱으로). 실패해도 버튼/스토어 링크로 폴백.
+    var codeElement = document.getElementById('code');
+    var openButton = document.getElementById('openApp');
+    var copyButton = document.getElementById('copyCode');
+    var hint = document.getElementById('hint');
+
     if (raw) {
-      setTimeout(function () { location.href = deepLink; }, 400);
+      codeElement.textContent = raw;
+      openButton.setAttribute('href', deepLink);
+    } else {
+      openButton.setAttribute('aria-disabled', 'true');
+      openButton.addEventListener('click', function (event) { event.preventDefault(); });
+      copyButton.disabled = true;
+      hint.textContent = '초대 코드가 없는 링크예요. 초대한 사람에게 새 링크를 요청해 주세요.';
     }
+
+    copyButton.addEventListener('click', function () {
+      if (!raw) { return; }
+      var finished = false;
+      var selectCode = function () {
+        if (finished) { return; }
+        finished = true;
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(codeElement);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        copyButton.textContent = '코드를 선택했어요';
+      };
+      var markCopied = function () {
+        if (finished) { return; }
+        finished = true;
+        copyButton.textContent = '복사했어요';
+      };
+
+      if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+        selectCode();
+        return;
+      }
+
+      var fallbackTimer = setTimeout(selectCode, 500);
+      navigator.clipboard.writeText(raw).then(function () {
+        clearTimeout(fallbackTimer);
+        markCopied();
+      }).catch(function () {
+        clearTimeout(fallbackTimer);
+        selectCode();
+      });
+    });
   })();
 </script>
 </body>
