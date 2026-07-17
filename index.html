@@ -3,7 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DayRipple 개인정보처리방침</title>
+  <title>DayRipple 개인정보처리방침 · Privacy Policy</title>
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        var stored = null; try { stored = localStorage.getItem('dr_lang'); } catch (e) {}
+        var nav = (navigator.language || 'en').toLowerCase();
+        var lang = (q === 'ko' || q === 'en') ? q : (stored === 'ko' || stored === 'en' ? stored : (nav.indexOf('ko') === 0 ? 'ko' : 'en'));
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang;
+        document.title = lang === 'ko' ? 'DayRipple 개인정보처리방침' : 'DayRipple Privacy Policy';
+      } catch (e) {
+        document.documentElement.setAttribute('data-lang', 'ko');
+      }
+    })();
+  </script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px 60px; line-height: 1.7; color: #24211f; }
     h1 { font-size: 26px; } h2 { font-size: 19px; margin-top: 34px; }
@@ -12,83 +27,185 @@
     th { background: #f7f7f7; }
     .notice { background: #f5f7f4; border-radius: 12px; padding: 16px; }
     a { color: #9a4f3f; }
+    .langbar { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 8px; }
+    .langbar button { font: inherit; font-size: 13px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 999px; background: #fff; color: #7a746e; cursor: pointer; }
+    html[data-lang="ko"] .langbar .b-ko, html[data-lang="en"] .langbar .b-en { background: #9a4f3f; color: #fff; border-color: #9a4f3f; }
+    [data-lang-content="en"] { display: none; }
+    html[data-lang="en"] [data-lang-content="en"] { display: block; }
+    html[data-lang="en"] [data-lang-content="ko"] { display: none; }
   </style>
 </head>
 <body>
-  <h1>데이리플(DayRipple) 개인정보처리방침</h1>
-  <p>시행일: 2026년 7월 15일</p>
-  <p>데이리플(이하 “서비스”)은 이용자의 개인정보를 소중히 다루며, 개인정보 보호법 등 관련 법령을 준수합니다.</p>
-
-  <div class="notice">
-    <strong>계정과 데이터 삭제</strong><br>
-    앱의 <b>설정 → 계정 삭제</b>에서 즉시 삭제할 수 있습니다. 앱을 사용할 수 없는 경우에는
-    <a href="./delete-account.html">계정 삭제 요청 페이지</a>를 이용해 주세요.
+  <div class="langbar">
+    <button class="b-ko" onclick="drSetLang('ko')">한국어</button>
+    <button class="b-en" onclick="drSetLang('en')">English</button>
   </div>
 
-  <h2>1. 수집하는 개인정보</h2>
-  <table>
-    <tr><th>구분</th><th>항목</th><th>수집 시점</th></tr>
-    <tr><td>계정 정보</td><td>이메일 주소, 암호화된 인증 정보, 닉네임, 사용자 ID</td><td>회원가입·소셜 로그인 시</td></tr>
-    <tr><td>선택 설정</td><td>제품 개선 분석 동의·거부 상태</td><td>이용자가 동의 또는 거부를 선택할 때</td></tr>
-    <tr><td>서비스 이용 정보</td><td>일정, 기념일·디데이, 할 일, 공간 이름·멤버 구성</td><td>이용자가 직접 입력할 때</td></tr>
-    <tr><td>기기·알림 정보</td><td>푸시 알림 토큰, 운영체제, 언어, 시간대, 알림 종류별 동의 상태, 마지막 앱 사용 시각</td><td>알림을 켜거나 앱을 사용할 때</td></tr>
-    <tr><td>결제 정보</td><td>스토어 거래 ID, 상품 ID, 구매·환불 상태, 구매 연결용 무작위 식별자</td><td>인앱 결제 시</td></tr>
-    <tr><td>익명 이용 통계</td><td>완료한 주요 기능의 이벤트명과 정규화된 분류, 앱 버전, 운영체제, 익명 설치 식별자</td><td>제품 개선 분석을 명시적으로 허용한 뒤 이용할 때</td></tr>
-    <tr><td>오류 정보</td><td>앱 버전, 운영체제, 오류 종류·코드 위치, 내부 사용자 ID</td><td>오류·충돌 발생 시</td></tr>
-  </table>
-  <p>결제는 Apple App Store 또는 Google Play가 처리합니다. 서비스는 카드번호나 은행계좌 등 결제수단 정보를 수집하거나 저장하지 않습니다.</p>
-  <p>PostHog 이용 통계와 Sentry 오류 정보에는 이메일, 닉네임, 공간 이름, 관계 유형, 초대 코드·링크, 일정·기념일·할 일의 제목·메모, 결제 거래 ID·토큰을 보내지 않습니다. 광고 식별자, 위치, 연락처, 사진, 다른 회사 앱·웹의 활동을 수집하지 않으며 화면 녹화·세션 리플레이도 사용하지 않습니다.</p>
+  <!-- 한국어 -->
+  <div data-lang-content="ko">
+    <h1>데이리플(DayRipple) 개인정보처리방침</h1>
+    <p>시행일: 2026년 7월 15일</p>
+    <p>데이리플(이하 “서비스”)은 이용자의 개인정보를 소중히 다루며, 개인정보 보호법 등 관련 법령을 준수합니다.</p>
 
-  <h2>2. 이용 목적</h2>
-  <ul>
-    <li>회원 식별 및 로그인</li>
-    <li>초대받은 공간 멤버 간 일정·기념일·할 일 공유</li>
-    <li>일정·기념일 알림 및 멤버 활동 푸시 알림 발송</li>
-    <li>사용자가 별도로 허용한 경우 언어·시간대와 현재 공간 상태에 맞춘 사용유도 알림 발송</li>
-    <li>공간 평생권·추가 인원권 확인과 환불·취소 시 권한 조정</li>
-    <li>이용자가 명시적으로 허용한 경우 익명 이용 흐름 분석을 통한 기능 개선</li>
-    <li>서비스 오류·충돌 대응과 결제 중복·부정 이용 방지</li>
-  </ul>
+    <div class="notice">
+      <strong>계정과 데이터 삭제</strong><br>
+      앱의 <b>설정 → 계정 삭제</b>에서 즉시 삭제할 수 있습니다. 앱을 사용할 수 없는 경우에는
+      <a href="./delete-account.html">계정 삭제 요청 페이지</a>를 이용해 주세요.
+    </div>
 
-  <h2>3. 보관 및 파기</h2>
-  <ul>
-    <li>계정 삭제 시 계정·프로필·멤버십·기기 토큰·제품 개선 분석 선택 상태와 이용자가 작성한 일정·기념일·할 일을 지체 없이 삭제합니다.</li>
-    <li>혼자 사용하던 공간은 공간 데이터 전체를 삭제합니다. 다른 멤버가 남아 있는 공유 공간은 남은 멤버에게 이전되지만, 삭제한 이용자가 작성한 콘텐츠는 삭제됩니다.</li>
-    <li>공유 공간의 결제 권한은 다른 멤버의 피해를 막기 위해 공간에 남을 수 있으며, 삭제된 계정과의 연결은 제거됩니다.</li>
-    <li>PostHog는 계정 ID나 개인 프로필을 만들지 않는 익명 분석 모드로 사용합니다. 로그아웃·계정 삭제 시 기기의 익명 분석 식별자를 초기화하며, 이미 집계된 익명 통계는 특정 계정에 연결해 재식별하지 않습니다.</li>
-    <li>Sentry 오류 보고서는 운영상 필요한 기간 동안 보관된 뒤 삭제됩니다. 계정 삭제 후 새 오류에는 삭제한 계정의 내부 사용자 ID가 포함되지 않으며, 기존 오류 보고서 삭제는 문의처로 요청할 수 있습니다.</li>
-    <li>전자상거래법 등 관련 법령이 요구하는 결제 기록은 법정 기간 동안 분리 보관한 뒤 파기합니다.</li>
-  </ul>
+    <h2>1. 수집하는 개인정보</h2>
+    <table>
+      <tr><th>구분</th><th>항목</th><th>수집 시점</th></tr>
+      <tr><td>계정 정보</td><td>이메일 주소, 암호화된 인증 정보, 닉네임, 사용자 ID</td><td>회원가입·소셜 로그인 시</td></tr>
+      <tr><td>선택 설정</td><td>제품 개선 분석 동의·거부 상태</td><td>이용자가 동의 또는 거부를 선택할 때</td></tr>
+      <tr><td>서비스 이용 정보</td><td>일정, 기념일·디데이, 할 일, 공간 이름·멤버 구성</td><td>이용자가 직접 입력할 때</td></tr>
+      <tr><td>기기·알림 정보</td><td>푸시 알림 토큰, 운영체제, 언어, 시간대, 알림 종류별 동의 상태, 마지막 앱 사용 시각</td><td>알림을 켜거나 앱을 사용할 때</td></tr>
+      <tr><td>결제 정보</td><td>스토어 거래 ID, 상품 ID, 구매·환불 상태, 구매 연결용 무작위 식별자</td><td>인앱 결제 시</td></tr>
+      <tr><td>익명 이용 통계</td><td>완료한 주요 기능의 이벤트명과 정규화된 분류, 앱 버전, 운영체제, 익명 설치 식별자</td><td>제품 개선 분석을 명시적으로 허용한 뒤 이용할 때</td></tr>
+      <tr><td>오류 정보</td><td>앱 버전, 운영체제, 오류 종류·코드 위치, 내부 사용자 ID</td><td>오류·충돌 발생 시</td></tr>
+    </table>
+    <p>결제는 Apple App Store 또는 Google Play가 처리합니다. 서비스는 카드번호나 은행계좌 등 결제수단 정보를 수집하거나 저장하지 않습니다.</p>
+    <p>PostHog 이용 통계와 Sentry 오류 정보에는 이메일, 닉네임, 공간 이름, 관계 유형, 초대 코드·링크, 일정·기념일·할 일의 제목·메모, 결제 거래 ID·토큰을 보내지 않습니다. 광고 식별자, 위치, 연락처, 사진, 다른 회사 앱·웹의 활동을 수집하지 않으며 화면 녹화·세션 리플레이도 사용하지 않습니다.</p>
 
-  <h2>결제 환불과 데이터 보존</h2>
-  <ul>
-    <li>공간 평생권이 환불·취소되면 유료 기능이 중지되고 무료 한도가 다시 적용됩니다.</li>
-    <li>추가 인원권 거래 기록과 공간 데이터는 즉시 파기하지 않습니다. 정원을 초과한 멤버는 데이터 삭제 대신 접근이 일시 중지될 수 있습니다.</li>
-    <li>유효한 평생권·추가 인원권으로 정원이 회복되면 접근이 중지된 멤버는 참여 순서에 따라 자동 복구됩니다. 계정 삭제 요청은 이 정책과 별개로 처리됩니다.</li>
-  </ul>
+    <h2>2. 이용 목적</h2>
+    <ul>
+      <li>회원 식별 및 로그인</li>
+      <li>초대받은 공간 멤버 간 일정·기념일·할 일 공유</li>
+      <li>일정·기념일 알림 및 멤버 활동 푸시 알림 발송</li>
+      <li>사용자가 별도로 허용한 경우 언어·시간대와 현재 공간 상태에 맞춘 사용유도 알림 발송</li>
+      <li>공간 평생권·추가 인원권 확인과 환불·취소 시 권한 조정</li>
+      <li>이용자가 명시적으로 허용한 경우 익명 이용 흐름 분석을 통한 기능 개선</li>
+      <li>서비스 오류·충돌 대응과 결제 중복·부정 이용 방지</li>
+    </ul>
 
-  <h2>4. 제3자 제공 및 처리 위탁</h2>
-  <p>서비스는 개인정보를 판매하지 않으며 광고 추적에 사용하지 않습니다. 서비스 운영을 위해 다음 업체가 처리 수탁자로 데이터를 처리합니다.</p>
-  <table>
-    <tr><th>수탁자</th><th>위탁 업무</th><th>보관 위치</th></tr>
-    <tr><td>Supabase Inc.</td><td>데이터베이스·인증 서버 운영</td><td>대한민국 서울 리전(AWS)</td></tr>
-    <tr><td>Expo (650 Industries, Inc.)</td><td>사용자가 허용한 푸시 알림 전송</td><td>미국</td></tr>
-    <tr><td>Apple / Google</td><td>소셜 로그인, 인앱 결제 처리와 영수증 검증</td><td>각 사 정책에 따름</td></tr>
-    <tr><td>PostHog, Inc.</td><td>이용자가 명시적으로 허용한 경우 익명 제품 이용 통계 처리</td><td>미국 등 서비스 제공 리전</td></tr>
-    <tr><td>Functional Software, Inc. (Sentry)</td><td>오류·충돌 보고 처리</td><td>미국 등 서비스 제공 리전</td></tr>
-  </table>
+    <h2>3. 보관 및 파기</h2>
+    <ul>
+      <li>계정 삭제 시 계정·프로필·멤버십·기기 토큰·제품 개선 분석 선택 상태와 이용자가 작성한 일정·기념일·할 일을 지체 없이 삭제합니다.</li>
+      <li>혼자 사용하던 공간은 공간 데이터 전체를 삭제합니다. 다른 멤버가 남아 있는 공유 공간은 남은 멤버에게 이전되지만, 삭제한 이용자가 작성한 콘텐츠는 삭제됩니다.</li>
+      <li>공유 공간의 결제 권한은 다른 멤버의 피해를 막기 위해 공간에 남을 수 있으며, 삭제된 계정과의 연결은 제거됩니다.</li>
+      <li>PostHog는 계정 ID나 개인 프로필을 만들지 않는 익명 분석 모드로 사용합니다. 로그아웃·계정 삭제 시 기기의 익명 분석 식별자를 초기화하며, 이미 집계된 익명 통계는 특정 계정에 연결해 재식별하지 않습니다.</li>
+      <li>Sentry 오류 보고서는 운영상 필요한 기간 동안 보관된 뒤 삭제됩니다. 계정 삭제 후 새 오류에는 삭제한 계정의 내부 사용자 ID가 포함되지 않으며, 기존 오류 보고서 삭제는 문의처로 요청할 수 있습니다.</li>
+      <li>전자상거래법 등 관련 법령이 요구하는 결제 기록은 법정 기간 동안 분리 보관한 뒤 파기합니다.</li>
+    </ul>
 
-  <h2>5. 이용자의 권리</h2>
-  <p>제품 개선 분석은 기본적으로 꺼져 있으며, 이용자가 동의 또는 거부를 선택하기 전에는 PostHog를 초기화하거나 이용 통계를 전송하지 않습니다. 선택 상태는 계정과 기기에 저장되어 재설치·기기 변경 후에도 존중됩니다. 이용자는 앱 설정에서 언제든 분석을 끌 수 있고, 끈 뒤에는 새 PostHog 이벤트를 전송하지 않습니다. 프로필 수정과 계정 삭제도 앱 설정에서 할 수 있으며, 앱에 접근할 수 없는 경우에는 <a href="./delete-account.html">웹 삭제 요청</a>을 이용할 수 있습니다.</p>
+    <h2>결제 환불과 데이터 보존</h2>
+    <ul>
+      <li>공간 평생권이 환불·취소되면 유료 기능이 중지되고 무료 한도가 다시 적용됩니다.</li>
+      <li>추가 인원권 거래 기록과 공간 데이터는 즉시 파기하지 않습니다. 정원을 초과한 멤버는 데이터 삭제 대신 접근이 일시 중지될 수 있습니다.</li>
+      <li>유효한 평생권·추가 인원권으로 정원이 회복되면 접근이 중지된 멤버는 참여 순서에 따라 자동 복구됩니다. 계정 삭제 요청은 이 정책과 별개로 처리됩니다.</li>
+    </ul>
 
-  <h2>6. 개인정보 보호책임자 및 문의</h2>
-  <ul>
-    <li>책임자: 박병준</li>
-    <li>문의: <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a></li>
-    <li>지원: <a href="./support.html">DayRipple 지원 페이지</a></li>
-  </ul>
+    <h2>4. 제3자 제공 및 처리 위탁</h2>
+    <p>서비스는 개인정보를 판매하지 않으며 광고 추적에 사용하지 않습니다. 서비스 운영을 위해 다음 업체가 처리 수탁자로 데이터를 처리합니다.</p>
+    <table>
+      <tr><th>수탁자</th><th>위탁 업무</th><th>보관 위치</th></tr>
+      <tr><td>Supabase Inc.</td><td>데이터베이스·인증 서버 운영</td><td>대한민국 서울 리전(AWS)</td></tr>
+      <tr><td>Expo (650 Industries, Inc.)</td><td>사용자가 허용한 푸시 알림 전송</td><td>미국</td></tr>
+      <tr><td>Apple / Google</td><td>소셜 로그인, 인앱 결제 처리와 영수증 검증</td><td>각 사 정책에 따름</td></tr>
+      <tr><td>PostHog, Inc.</td><td>이용자가 명시적으로 허용한 경우 익명 제품 이용 통계 처리</td><td>미국 등 서비스 제공 리전</td></tr>
+      <tr><td>Functional Software, Inc. (Sentry)</td><td>오류·충돌 보고 처리</td><td>미국 등 서비스 제공 리전</td></tr>
+    </table>
 
-  <h2>7. 방침 변경</h2>
-  <p>본 방침이 변경되는 경우 앱 또는 이 페이지를 통해 알립니다.</p>
+    <h2>5. 이용자의 권리</h2>
+    <p>제품 개선 분석은 기본적으로 꺼져 있으며, 이용자가 동의 또는 거부를 선택하기 전에는 PostHog를 초기화하거나 이용 통계를 전송하지 않습니다. 선택 상태는 계정과 기기에 저장되어 재설치·기기 변경 후에도 존중됩니다. 이용자는 앱 설정에서 언제든 분석을 끌 수 있고, 끈 뒤에는 새 PostHog 이벤트를 전송하지 않습니다. 프로필 수정과 계정 삭제도 앱 설정에서 할 수 있으며, 앱에 접근할 수 없는 경우에는 <a href="./delete-account.html">웹 삭제 요청</a>을 이용할 수 있습니다.</p>
+
+    <h2>6. 개인정보 보호책임자 및 문의</h2>
+    <ul>
+      <li>책임자: 박병준</li>
+      <li>문의: <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a></li>
+      <li>지원: <a href="./support.html">DayRipple 지원 페이지</a></li>
+    </ul>
+
+    <h2>7. 방침 변경</h2>
+    <p>본 방침이 변경되는 경우 앱 또는 이 페이지를 통해 알립니다.</p>
+  </div>
+
+  <!-- English -->
+  <div data-lang-content="en">
+    <h1>DayRipple Privacy Policy</h1>
+    <p>Effective date: July 15, 2026</p>
+    <p>DayRipple (the “Service”) treats your personal information with care and complies with applicable laws, including the Personal Information Protection Act of Korea.</p>
+
+    <div class="notice">
+      <strong>Account and data deletion</strong><br>
+      You can delete your account instantly in the app under <b>Settings → Delete account</b>. If you cannot use the app, please use the
+      <a href="./delete-account.html">account deletion request page</a>.
+    </div>
+
+    <h2>1. Personal information we collect</h2>
+    <table>
+      <tr><th>Category</th><th>Items</th><th>When collected</th></tr>
+      <tr><td>Account info</td><td>Email address, encrypted authentication credentials, nickname, user ID</td><td>At sign-up / social login</td></tr>
+      <tr><td>Optional setting</td><td>Product-improvement analytics opt-in / opt-out status</td><td>When you choose to allow or decline</td></tr>
+      <tr><td>Service usage info</td><td>Events, anniversaries / D-days, to-dos, space names and member composition</td><td>When you enter them yourself</td></tr>
+      <tr><td>Device &amp; notification info</td><td>Push notification token, operating system, language, time zone, per-type notification consent, last app-use time</td><td>When you enable notifications or use the app</td></tr>
+      <tr><td>Payment info</td><td>Store transaction ID, product ID, purchase / refund status, a random identifier used to link purchases</td><td>On in-app purchase</td></tr>
+      <tr><td>Anonymous usage statistics</td><td>Event names of completed key actions and their normalized categories, app version, operating system, anonymous install identifier</td><td>After you explicitly allow product-improvement analytics</td></tr>
+      <tr><td>Error info</td><td>App version, operating system, error type / code location, internal user ID</td><td>When an error or crash occurs</td></tr>
+    </table>
+    <p>Payments are processed by the Apple App Store or Google Play. The Service does not collect or store payment method details such as card or bank account numbers.</p>
+    <p>PostHog usage statistics and Sentry error reports do not include your email, nickname, space names, relationship type, invite codes / links, the titles or memos of events, anniversaries, or to-dos, or payment transaction IDs / tokens. We do not collect advertising identifiers, location, contacts, or photos, we do not track your activity across other companies’ apps or websites, and we do not use screen recording or session replay.</p>
+
+    <h2>2. Purposes of use</h2>
+    <ul>
+      <li>Member identification and login</li>
+      <li>Sharing events, anniversaries, and to-dos among invited space members</li>
+      <li>Sending event / anniversary reminders and member-activity push notifications</li>
+      <li>Where you have separately allowed it, sending re-engagement notifications tailored to your language, time zone, and current space status</li>
+      <li>Verifying space lifetime and extra-seat entitlements and adjusting access on refund or cancellation</li>
+      <li>Improving features through anonymous usage-flow analysis, only where you have explicitly allowed it</li>
+      <li>Responding to errors and crashes and preventing duplicate charges and fraudulent use</li>
+    </ul>
+
+    <h2>3. Retention and deletion</h2>
+    <ul>
+      <li>When you delete your account, we promptly delete your account, profile, memberships, device tokens, product-improvement analytics choice, and the events, anniversaries, and to-dos you created.</li>
+      <li>Spaces you used alone are deleted in full. Shared spaces where other members remain are transferred to those members, but content you created is deleted.</li>
+      <li>A shared space’s purchase entitlement may remain on the space to protect other members, with its link to the deleted account removed.</li>
+      <li>PostHog is used in an anonymous analytics mode that does not create account IDs or personal profiles. On logout or account deletion, the device’s anonymous analytics identifier is reset, and already-aggregated anonymous statistics are not re-identified or linked to any specific account.</li>
+      <li>Sentry error reports are retained for as long as operationally necessary, then deleted. New errors after account deletion do not include the deleted account’s internal user ID, and you can request deletion of existing error reports through the contact channel.</li>
+      <li>Payment records required by applicable law, such as the Act on the Consumer Protection in Electronic Commerce, are stored separately for the statutory period, then destroyed.</li>
+    </ul>
+
+    <h2>Payment refunds and data retention</h2>
+    <ul>
+      <li>If a space lifetime pass is refunded or canceled, paid features stop and the free limits apply again.</li>
+      <li>Extra-seat transaction records and space data are not destroyed immediately. Members over capacity may have their access suspended rather than their data deleted.</li>
+      <li>Once capacity is restored with a valid lifetime or extra-seat entitlement, suspended members are automatically reinstated in join order. Account deletion requests are handled separately from this policy.</li>
+    </ul>
+
+    <h2>4. Third-party provision and processing consignment</h2>
+    <p>The Service does not sell personal information and does not use it for ad tracking. The following companies process data as our processors to operate the Service.</p>
+    <table>
+      <tr><th>Processor</th><th>Task</th><th>Storage location</th></tr>
+      <tr><td>Supabase Inc.</td><td>Database and authentication server operation</td><td>Seoul, Korea region (AWS)</td></tr>
+      <tr><td>Expo (650 Industries, Inc.)</td><td>Sending push notifications you have allowed</td><td>United States</td></tr>
+      <tr><td>Apple / Google</td><td>Social login, in-app purchase processing and receipt verification</td><td>Per each company’s policy</td></tr>
+      <tr><td>PostHog, Inc.</td><td>Processing anonymous product-usage statistics, only where you explicitly allowed it</td><td>United States and other service regions</td></tr>
+      <tr><td>Functional Software, Inc. (Sentry)</td><td>Error / crash report processing</td><td>United States and other service regions</td></tr>
+    </table>
+
+    <h2>5. Your rights</h2>
+    <p>Product-improvement analytics is off by default; we do not initialize PostHog or send usage statistics before you choose to allow or decline. Your choice is stored on your account and device and is honored after reinstall or a device change. You can turn analytics off at any time in the app settings, after which no new PostHog events are sent. You can also edit your profile and delete your account in the app settings; if you cannot access the app, you can use the <a href="./delete-account.html">web deletion request</a>.</p>
+
+    <h2>6. Privacy officer and contact</h2>
+    <ul>
+      <li>Officer: Park Byungjun</li>
+      <li>Contact: <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a></li>
+      <li>Support: <a href="./support.html">DayRipple support page</a></li>
+    </ul>
+
+    <h2>7. Changes to this policy</h2>
+    <p>If this policy changes, we will notify you through the app or on this page.</p>
+  </div>
+
+  <script>
+    function drSetLang(l) {
+      document.documentElement.setAttribute('data-lang', l);
+      document.documentElement.lang = l;
+      document.title = l === 'ko' ? 'DayRipple 개인정보처리방침' : 'DayRipple Privacy Policy';
+      try { localStorage.setItem('dr_lang', l); } catch (e) {}
+    }
+  </script>
 </body>
 </html>

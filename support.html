@@ -3,25 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DayRipple 지원</title>
+  <title>DayRipple 지원 · Support</title>
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        var stored = null; try { stored = localStorage.getItem('dr_lang'); } catch (e) {}
+        var nav = (navigator.language || 'en').toLowerCase();
+        var lang = (q === 'ko' || q === 'en') ? q : (stored === 'ko' || stored === 'en' ? stored : (nav.indexOf('ko') === 0 ? 'ko' : 'en'));
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang;
+        document.title = lang === 'ko' ? 'DayRipple 지원' : 'DayRipple Support';
+      } catch (e) {
+        document.documentElement.setAttribute('data-lang', 'ko');
+      }
+    })();
+  </script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px 60px; line-height: 1.7; color: #24211f; }
     h1 { font-size: 26px; } h2 { font-size: 19px; margin-top: 30px; } a { color: #9a4f3f; }
+    .langbar { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 8px; }
+    .langbar button { font: inherit; font-size: 13px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 999px; background: #fff; color: #7a746e; cursor: pointer; }
+    html[data-lang="ko"] .langbar .b-ko, html[data-lang="en"] .langbar .b-en { background: #9a4f3f; color: #fff; border-color: #9a4f3f; }
+    [data-lang-content="en"] { display: none; }
+    html[data-lang="en"] [data-lang-content="en"] { display: block; }
+    html[data-lang="en"] [data-lang-content="ko"] { display: none; }
   </style>
 </head>
 <body>
-  <h1>DayRipple 지원</h1>
-  <p>일정, 기념일, 할 일을 가까운 사람과 가볍게 공유하는 DayRipple의 지원 페이지입니다.</p>
+  <div class="langbar">
+    <button class="b-ko" onclick="drSetLang('ko')">한국어</button>
+    <button class="b-en" onclick="drSetLang('en')">English</button>
+  </div>
 
-  <h2>문의</h2>
-  <p><a href="mailto:ehxhfl92@gmail.com?subject=DayRipple%20문의">ehxhfl92@gmail.com</a></p>
+  <!-- 한국어 -->
+  <div data-lang-content="ko">
+    <h1>DayRipple 지원</h1>
+    <p>일정, 기념일, 할 일을 가까운 사람과 가볍게 공유하는 DayRipple의 지원 페이지입니다.</p>
 
-  <h2>결제가 완료되지 않았을 때</h2>
-  <p>앱의 <b>설정 → 결제 상태 → 미완료 구매 확인</b>을 눌러 주세요. 같은 스토어 거래를 다른 공간에 중복 적용할 수는 없습니다.</p>
+    <h2>문의</h2>
+    <p><a href="mailto:ehxhfl92@gmail.com?subject=DayRipple%20문의">ehxhfl92@gmail.com</a></p>
 
-  <h2>계정 삭제</h2>
-  <p>앱의 <b>설정 → 계정 삭제</b>에서 바로 삭제하거나, <a href="./delete-account.html">계정 삭제 요청 페이지</a>를 이용할 수 있습니다.</p>
+    <h2>결제가 완료되지 않았을 때</h2>
+    <p>앱의 <b>설정 → 결제 상태 → 미완료 구매 확인</b>을 눌러 주세요. 같은 스토어 거래를 다른 공간에 중복 적용할 수는 없습니다.</p>
 
-  <p><a href="./index.html">개인정보처리방침</a></p>
+    <h2>계정 삭제</h2>
+    <p>앱의 <b>설정 → 계정 삭제</b>에서 바로 삭제하거나, <a href="./delete-account.html">계정 삭제 요청 페이지</a>를 이용할 수 있습니다.</p>
+
+    <p><a href="./index.html">개인정보처리방침</a></p>
+  </div>
+
+  <!-- English -->
+  <div data-lang-content="en">
+    <h1>DayRipple Support</h1>
+    <p>The support page for DayRipple — lightly share events, anniversaries, and to-dos with the people close to you.</p>
+
+    <h2>Contact</h2>
+    <p><a href="mailto:ehxhfl92@gmail.com?subject=DayRipple%20support">ehxhfl92@gmail.com</a></p>
+
+    <h2>When a payment didn’t go through</h2>
+    <p>In the app, tap <b>Settings → Purchase status → Check incomplete purchases</b>. The same store transaction cannot be applied to more than one space.</p>
+
+    <h2>Account deletion</h2>
+    <p>Delete directly in the app under <b>Settings → Delete account</b>, or use the <a href="./delete-account.html">account deletion request page</a>.</p>
+
+    <p><a href="./index.html">Privacy Policy</a></p>
+  </div>
+
+  <script>
+    function drSetLang(l) {
+      document.documentElement.setAttribute('data-lang', l);
+      document.documentElement.lang = l;
+      document.title = l === 'ko' ? 'DayRipple 지원' : 'DayRipple Support';
+      try { localStorage.setItem('dr_lang', l); } catch (e) {}
+    }
+  </script>
 </body>
 </html>

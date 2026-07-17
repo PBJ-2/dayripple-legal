@@ -1,51 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>데이리플(DayRipple) 계정 삭제 안내</title>
-<style>
-  body { font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.7; color: #1a1a1a; }
-  h1 { font-size: 1.6em; } h2 { font-size: 1.2em; margin-top: 2em; }
-  .steps { background: #f6f8f7; border-radius: 12px; padding: 20px 24px; }
-  .steps li { margin: 6px 0; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; font-size: 0.95em; }
-  a { color: #2563eb; }
-  .en { color: #555; font-size: 0.92em; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DayRipple 계정 삭제 요청 · Delete account</title>
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get('lang');
+        var stored = null; try { stored = localStorage.getItem('dr_lang'); } catch (e) {}
+        var nav = (navigator.language || 'en').toLowerCase();
+        var lang = (q === 'ko' || q === 'en') ? q : (stored === 'ko' || stored === 'en' ? stored : (nav.indexOf('ko') === 0 ? 'ko' : 'en'));
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang;
+        document.title = lang === 'ko' ? 'DayRipple 계정 삭제 요청' : 'Delete your DayRipple account';
+      } catch (e) {
+        document.documentElement.setAttribute('data-lang', 'ko');
+      }
+    })();
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px 60px; line-height: 1.7; color: #24211f; }
+    h1 { font-size: 26px; } h2 { font-size: 19px; margin-top: 32px; }
+    .card { background: #f5f7f4; border-radius: 14px; padding: 18px; margin: 18px 0; }
+    .button { display: inline-block; background: #9a4f3f; color: white; text-decoration: none; padding: 11px 16px; border-radius: 10px; font-weight: 700; }
+    a { color: #9a4f3f; }
+    .langbar { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 8px; }
+    .langbar button { font: inherit; font-size: 13px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 999px; background: #fff; color: #7a746e; cursor: pointer; }
+    html[data-lang="ko"] .langbar .b-ko, html[data-lang="en"] .langbar .b-en { background: #9a4f3f; color: #fff; border-color: #9a4f3f; }
+    [data-lang-content="en"] { display: none; }
+    html[data-lang="en"] [data-lang-content="en"] { display: block; }
+    html[data-lang="en"] [data-lang-content="ko"] { display: none; }
+  </style>
 </head>
 <body>
+  <div class="langbar">
+    <button class="b-ko" onclick="drSetLang('ko')">한국어</button>
+    <button class="b-en" onclick="drSetLang('en')">English</button>
+  </div>
 
-<h1>데이리플(DayRipple) 계정 삭제 안내</h1>
-<p>이 페이지는 데이리플(DayRipple) 앱의 계정 및 관련 데이터 삭제 방법을 안내합니다.</p>
+  <!-- 한국어 -->
+  <div data-lang-content="ko">
+    <h1>DayRipple 계정 및 데이터 삭제</h1>
+    <p>DayRipple 계정과 연결된 데이터를 삭제하는 방법입니다.</p>
 
-<h2>앱에서 직접 삭제 (즉시 처리)</h2>
-<div class="steps">
-<ol>
-  <li>데이리플 앱 실행</li>
-  <li>하단 <b>설정</b> 탭 선택</li>
-  <li>맨 아래 <b>계정</b> 섹션에서 <b>계정 삭제</b> 선택</li>
-  <li>안내 확인 후 <b>삭제</b>를 누르면 즉시 처리됩니다</li>
-</ol>
-</div>
+    <h2>앱에서 즉시 삭제</h2>
+    <div class="card">
+      DayRipple에 로그인한 뒤 <b>설정 → 계정 → 계정 삭제</b>를 누르세요. 확인 후 계정 삭제가 즉시 시작됩니다.
+    </div>
 
-<h2>앱을 사용할 수 없는 경우</h2>
-<p>앱에 접근할 수 없다면 가입한 이메일 주소로 <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a>에 "계정 삭제 요청"을 보내주세요. 본인 확인 후 지체 없이 삭제해 드립니다.</p>
+    <h2>앱에 접근할 수 없는 경우</h2>
+    <p>가입한 이메일 주소에서 아래 버튼으로 삭제 요청을 보내 주세요. 비밀번호나 결제 카드번호는 보내지 마세요.</p>
+    <p><a class="button" href="mailto:ehxhfl92@gmail.com?subject=DayRipple%20계정%20삭제%20요청&body=DayRipple%20가입%20이메일%3A%0A삭제를%20요청합니다.">이메일로 삭제 요청</a></p>
+    <p>이메일: <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a></p>
 
-<h2>삭제·보관되는 데이터</h2>
-<table>
-  <tr><th>데이터</th><th>처리</th></tr>
-  <tr><td>계정 정보(이메일, 닉네임), 내가 작성한 일정·기념일·할 일</td><td><b>즉시 삭제</b></td></tr>
-  <tr><td>혼자 사용하던 공간과 그 공간의 데이터·평생권 기록</td><td><b>즉시 삭제</b></td></tr>
-  <tr><td>공유 공간(다른 멤버가 남아 있는 경우)</td><td>내 멤버십만 해제되고 공간은 남은 멤버에게 이전</td></tr>
-  <tr><td>결제 기록</td><td>전자상거래법에 따라 <b>5년 분리 보관</b> 후 파기</td></tr>
-</table>
+    <h2>삭제되는 데이터</h2>
+    <ul>
+      <li>로그인 계정, 이메일, 프로필과 닉네임</li>
+      <li>공간 멤버십과 푸시 알림 토큰</li>
+      <li>기기에 남은 미완료 구매 대상 정보와 알림 예약, 분석 식별 상태</li>
+      <li>요청자가 작성한 일정, 기념일·디데이, 할 일</li>
+      <li>요청자 혼자 사용하던 공간과 그 공간의 데이터</li>
+    </ul>
+    <p>다른 멤버가 남아 있는 공유 공간은 남은 멤버에게 이전됩니다. 법령상 보관 의무가 있는 결제 기록은 법정 기간 동안 분리 보관될 수 있고, 공유 공간의 구매 권한은 삭제한 계정과의 연결을 제거한 상태로 남을 수 있습니다. 익명으로 집계되어 계정과 연결되지 않는 제품 통계는 특정 계정의 데이터로 재식별하지 않습니다. 기존 Sentry 오류 보고서 삭제가 필요한 경우 이메일 요청에 함께 적어 주세요.</p>
+    <p>이메일 요청은 본인 확인 후 지체 없이 처리하며, 통상 7일 이내 완료 결과를 회신합니다.</p>
 
-<h2 class="en">Delete your account (English)</h2>
-<p class="en">To delete your DayRipple account and data: open the app → <b>Settings</b> tab → <b>Delete account</b>. Deletion is immediate. If you can't access the app, email <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a> from your registered address. Your account, events, anniversaries, and to-dos are deleted immediately; purchase records are retained for 5 years as required by Korean e-commerce law, then destroyed.</p>
+    <p><a href="./index.html">개인정보처리방침</a> · <a href="./support.html">지원</a></p>
+  </div>
 
-<p><a href="./">← 개인정보처리방침 전체 보기</a></p>
+  <!-- English -->
+  <div data-lang-content="en">
+    <h1>Delete your DayRipple account and data</h1>
+    <p>How to delete the data linked to your DayRipple account.</p>
 
+    <h2>Delete instantly in the app</h2>
+    <div class="card">
+      Sign in to DayRipple, then tap <b>Settings → Account → Delete account</b>. After you confirm, deletion begins immediately.
+    </div>
+
+    <h2>If you cannot access the app</h2>
+    <p>From the email address you signed up with, send a deletion request using the button below. Do not send your password or payment card number.</p>
+    <p><a class="button" href="mailto:ehxhfl92@gmail.com?subject=DayRipple%20account%20deletion%20request&body=Registered%20DayRipple%20email%3A%0AI%20request%20deletion%20of%20my%20account.">Request deletion by email</a></p>
+    <p>Email: <a href="mailto:ehxhfl92@gmail.com">ehxhfl92@gmail.com</a></p>
+
+    <h2>Data that is deleted</h2>
+    <ul>
+      <li>Your login account, email, profile, and nickname</li>
+      <li>Space memberships and push notification tokens</li>
+      <li>Device-side pending-purchase target info, scheduled notifications, and analytics-identifier state</li>
+      <li>Events, anniversaries / D-days, and to-dos you created</li>
+      <li>Spaces you used alone and their data</li>
+    </ul>
+    <p>Shared spaces where other members remain are transferred to those members. Payment records with a legal retention obligation may be stored separately for the statutory period, and a shared space’s purchase entitlement may remain with its link to the deleted account removed. Anonymous product statistics that are aggregated without account linkage are not re-identified as any specific account’s data. If you need existing Sentry error reports deleted, please note that in your email request.</p>
+    <p>Email requests are processed promptly after identity verification, normally completed within 7 days.</p>
+
+    <p><a href="./index.html">Privacy Policy</a> · <a href="./support.html">Support</a></p>
+  </div>
+
+  <script>
+    function drSetLang(l) {
+      document.documentElement.setAttribute('data-lang', l);
+      document.documentElement.lang = l;
+      document.title = l === 'ko' ? 'DayRipple 계정 삭제 요청' : 'Delete your DayRipple account';
+      try { localStorage.setItem('dr_lang', l); } catch (e) {}
+    }
+  </script>
 </body>
 </html>
