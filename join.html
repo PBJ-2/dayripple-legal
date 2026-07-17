@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>DayRipple 초대</title>
-<meta property="og:title" content="DayRipple 초대장" />
-<meta property="og:description" content="우리 공간에 초대되었어요. 함께 쓰는 가장 가벼운 달력, DayRipple." />
+<title>DayRipple</title>
+<meta property="og:title" content="DayRipple" />
+<meta property="og:description" content="우리 공간에 초대되었어요 · You're invited to our space" />
 <style>
   :root { --coral:#F2856B; --ink:#241F1C; --muted:#8B8F99; --bg:#F5F7F4; --card:#FFFFFF; }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -32,19 +32,130 @@
 <body>
   <div class="card">
     <div class="logo">🗓️</div>
-    <h1>우리 공간에 초대되었어요</h1>
-    <p class="sub">함께 쓰는 가장 가벼운 달력, DayRipple.<br />아래 버튼으로 앱을 열면 바로 참여돼요.</p>
+    <h1 id="t-title">You're invited to our space</h1>
+    <p class="sub" id="t-sub">The lightest calendar to share together.<br />Open the app below to join right away.</p>
     <div class="codebox">
-      <div class="codelabel">초대 코드</div>
+      <div class="codelabel" id="t-codelabel">Invite code</div>
       <div class="code" id="code">------</div>
     </div>
-    <a class="btn btn-primary" id="openApp" href="#">앱에서 열기</a>
-    <button class="btn btn-copy" id="copyCode" type="button">초대 코드 복사</button>
-    <p class="store-note">앱이 설치되어 있지 않으면 기기에 맞는 스토어로 이동합니다. 스토어 공개 전에는 설치 페이지가 열리지 않을 수 있어요.</p>
-    <p class="hint" id="hint">앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.</p>
+    <a class="btn btn-primary" id="openApp" href="#">Open in app</a>
+    <button class="btn btn-copy" id="copyCode" type="button">Copy invite code</button>
+    <p class="store-note" id="t-storenote">If the app isn't installed, you'll be taken to the store for your device.</p>
+    <p class="hint" id="hint">If the app doesn't open, install it and enter the <b>invite code</b> to join.</p>
   </div>
 <script>
   (function () {
+    // ── 11개 로케일 문구 (앱 i18n과 동일 용어: 공간/Bereich/espace/ruang, 초대 코드/Invite code…) ──
+    var STRINGS = {
+      ko: { doc: 'ko', pageTitle: 'DayRipple 초대', title: '우리 공간에 초대되었어요',
+        sub: '함께 쓰는 가장 가벼운 달력, DayRipple.<br />아래 버튼으로 앱을 열면 바로 참여돼요.',
+        codeLabel: '초대 코드', open: '앱에서 열기', copy: '초대 코드 복사',
+        storeNote: '앱이 설치되어 있지 않으면 기기에 맞는 스토어로 이동합니다. 스토어 공개 전에는 설치 페이지가 열리지 않을 수 있어요.',
+        hint: '앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.',
+        noCode: '초대 코드가 없는 링크예요. 초대한 사람에게 새 링크를 요청해 주세요.',
+        copied: '복사했어요', selected: '코드를 선택했어요' },
+      en: { doc: 'en', pageTitle: 'DayRipple Invitation', title: "You're invited to our space",
+        sub: 'The lightest calendar to share together.<br />Open the app below to join right away.',
+        codeLabel: 'Invite code', open: 'Open in app', copy: 'Copy invite code',
+        storeNote: "If the app isn't installed, you'll be taken to the store for your device. Before public release the store page may not open.",
+        hint: "If the app doesn't open, install it and enter the <b>invite code</b> to join.",
+        noCode: 'This link has no invite code. Ask the person who invited you for a new link.',
+        copied: 'Copied', selected: 'Code selected' },
+      ja: { doc: 'ja', pageTitle: 'DayRipple 招待', title: '私たちのスペースに招待されました',
+        sub: 'ふたりで使う、いちばん軽いカレンダー。<br />下のボタンでアプリを開くとすぐ参加できます。',
+        codeLabel: '招待コード', open: 'アプリで開く', copy: '招待コードをコピー',
+        storeNote: 'アプリが未インストールの場合は、端末に合ったストアへ移動します。ストア公開前はページが開けないことがあります。',
+        hint: 'アプリが開かない場合は、インストール後に<b>招待コード</b>を入力しても参加できます。',
+        noCode: 'このリンクには招待コードがありません。招待した人に新しいリンクをお願いしてください。',
+        copied: 'コピーしました', selected: 'コードを選択しました' },
+      'zh-Hans': { doc: 'zh-Hans', pageTitle: 'DayRipple 邀请', title: '你被邀请加入我们的空间',
+        sub: '一起使用的最轻便日历。<br />点击下方按钮打开应用即可加入。',
+        codeLabel: '邀请码', open: '在应用中打开', copy: '复制邀请码',
+        storeNote: '如果尚未安装应用，将跳转到适合你设备的商店。商店上架前页面可能无法打开。',
+        hint: '如果应用没有打开，也可以安装后直接输入<b>邀请码</b>加入。',
+        noCode: '此链接没有邀请码。请向邀请你的人索取新链接。',
+        copied: '已复制', selected: '已选中代码' },
+      'zh-Hant': { doc: 'zh-Hant', pageTitle: 'DayRipple 邀請', title: '你被邀請加入我們的空間',
+        sub: '一起使用的最輕便日曆。<br />點下方按鈕開啟 App 即可加入。',
+        codeLabel: '邀請碼', open: '在 App 中開啟', copy: '複製邀請碼',
+        storeNote: '如果尚未安裝 App，將前往適合你裝置的商店。商店上架前頁面可能無法開啟。',
+        hint: '如果 App 沒有開啟，也可以安裝後直接輸入<b>邀請碼</b>加入。',
+        noCode: '此連結沒有邀請碼。請向邀請你的人索取新連結。',
+        copied: '已複製', selected: '已選取代碼' },
+      vi: { doc: 'vi', pageTitle: 'Lời mời DayRipple', title: 'Bạn được mời vào không gian của chúng mình',
+        sub: 'Cuốn lịch nhẹ nhàng nhất để dùng chung.<br />Mở ứng dụng bên dưới để tham gia ngay.',
+        codeLabel: 'Mã mời', open: 'Mở trong ứng dụng', copy: 'Sao chép mã mời',
+        storeNote: 'Nếu chưa cài ứng dụng, bạn sẽ được đưa đến cửa hàng phù hợp với thiết bị. Trước khi phát hành, trang có thể chưa mở được.',
+        hint: 'Nếu ứng dụng không mở, hãy cài đặt rồi nhập <b>mã mời</b> để tham gia.',
+        noCode: 'Liên kết này không có mã mời. Hãy xin người mời một liên kết mới.',
+        copied: 'Đã sao chép', selected: 'Đã chọn mã' },
+      es: { doc: 'es', pageTitle: 'Invitación de DayRipple', title: 'Te invitaron a nuestro espacio',
+        sub: 'El calendario más ligero para compartir.<br />Abre la app con el botón para unirte al instante.',
+        codeLabel: 'Código de invitación', open: 'Abrir en la app', copy: 'Copiar código de invitación',
+        storeNote: 'Si no tienes la app instalada, irás a la tienda de tu dispositivo. Antes del lanzamiento puede que la página no abra.',
+        hint: 'Si la app no se abre, instálala e introduce el <b>código de invitación</b> para unirte.',
+        noCode: 'Este enlace no tiene código de invitación. Pide un enlace nuevo a quien te invitó.',
+        copied: 'Copiado', selected: 'Código seleccionado' },
+      'pt-BR': { doc: 'pt-BR', pageTitle: 'Convite do DayRipple', title: 'Você foi convidado para o nosso espaço',
+        sub: 'O calendário mais leve para usar a dois.<br />Abra o app no botão abaixo para participar na hora.',
+        codeLabel: 'Código de convite', open: 'Abrir no app', copy: 'Copiar código de convite',
+        storeNote: 'Se o app não estiver instalado, você irá para a loja do seu dispositivo. Antes do lançamento a página pode não abrir.',
+        hint: 'Se o app não abrir, instale-o e digite o <b>código de convite</b> para participar.',
+        noCode: 'Este link não tem código de convite. Peça um novo link para quem convidou você.',
+        copied: 'Copiado', selected: 'Código selecionado' },
+      de: { doc: 'de', pageTitle: 'DayRipple-Einladung', title: 'Du wurdest in unseren Bereich eingeladen',
+        sub: 'Der leichteste Kalender zum Teilen.<br />Öffne die App über den Button und tritt direkt bei.',
+        codeLabel: 'Einladungscode', open: 'In der App öffnen', copy: 'Einladungscode kopieren',
+        storeNote: 'Ist die App nicht installiert, wirst du zum passenden Store weitergeleitet. Vor der Veröffentlichung kann sich die Seite eventuell nicht öffnen.',
+        hint: 'Öffnet sich die App nicht, installiere sie und gib den <b>Einladungscode</b> ein, um beizutreten.',
+        noCode: 'Dieser Link enthält keinen Einladungscode. Bitte die Person, die dich eingeladen hat, um einen neuen Link.',
+        copied: 'Kopiert', selected: 'Code markiert' },
+      fr: { doc: 'fr', pageTitle: 'Invitation DayRipple', title: 'Vous êtes invité·e dans notre espace',
+        sub: "Le calendrier le plus léger à partager.<br />Ouvrez l'app ci-dessous pour rejoindre aussitôt.",
+        codeLabel: "Code d'invitation", open: "Ouvrir dans l'app", copy: "Copier le code d'invitation",
+        storeNote: "Si l'app n'est pas installée, vous serez redirigé·e vers le store de votre appareil. Avant la sortie, la page peut ne pas s'ouvrir.",
+        hint: "Si l'app ne s'ouvre pas, installez-la puis saisissez le <b>code d'invitation</b> pour rejoindre.",
+        noCode: "Ce lien ne contient pas de code d'invitation. Demandez un nouveau lien à la personne qui vous a invité·e.",
+        copied: 'Copié', selected: 'Code sélectionné' },
+      id: { doc: 'id', pageTitle: 'Undangan DayRipple', title: 'Kamu diundang ke ruang kami',
+        sub: 'Kalender paling ringan untuk dipakai bersama.<br />Buka aplikasinya lewat tombol di bawah untuk langsung gabung.',
+        codeLabel: 'Kode undangan', open: 'Buka di aplikasi', copy: 'Salin kode undangan',
+        storeNote: 'Jika aplikasi belum terpasang, kamu akan diarahkan ke toko sesuai perangkatmu. Sebelum rilis, halamannya mungkin belum bisa dibuka.',
+        hint: 'Jika aplikasi tidak terbuka, pasang dulu lalu masukkan <b>kode undangan</b> untuk gabung.',
+        noCode: 'Tautan ini tidak punya kode undangan. Minta tautan baru ke orang yang mengundangmu.',
+        copied: 'Tersalin', selected: 'Kode dipilih' }
+    };
+
+    function resolveLocale() {
+      var candidates = navigator.languages && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || 'en'];
+      for (var i = 0; i < candidates.length; i += 1) {
+        var tag = String(candidates[i] || '').toLowerCase();
+        if (tag.indexOf('ko') === 0) { return 'ko'; }
+        if (tag.indexOf('ja') === 0) { return 'ja'; }
+        if (tag.indexOf('vi') === 0) { return 'vi'; }
+        if (tag.indexOf('es') === 0) { return 'es'; }
+        if (tag.indexOf('de') === 0) { return 'de'; }
+        if (tag.indexOf('fr') === 0) { return 'fr'; }
+        if (tag.indexOf('pt') === 0) { return 'pt-BR'; }
+        if (tag.indexOf('id') === 0 || tag.indexOf('in') === 0) { return 'id'; }
+        if (tag.indexOf('zh') === 0) {
+          return /hant|-tw|-hk|-mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
+        }
+        if (tag.indexOf('en') === 0) { return 'en'; }
+      }
+      return 'en';
+    }
+
+    var t = STRINGS[resolveLocale()] || STRINGS.en;
+    document.documentElement.lang = t.doc;
+    document.title = t.pageTitle;
+    document.getElementById('t-title').textContent = t.title;
+    document.getElementById('t-sub').innerHTML = t.sub;
+    document.getElementById('t-codelabel').textContent = t.codeLabel;
+    document.getElementById('t-storenote').textContent = t.storeNote;
+
     var params = new URLSearchParams(location.search);
     var raw = (params.get('code') || '').replace(/[^a-z0-9]/gi, '').toUpperCase().slice(0, 8);
     var deepLink = 'dayripple://join?code=' + encodeURIComponent(raw);
@@ -54,6 +165,10 @@
     var openButton = document.getElementById('openApp');
     var copyButton = document.getElementById('copyCode');
     var hint = document.getElementById('hint');
+
+    openButton.textContent = t.open;
+    copyButton.textContent = t.copy;
+    hint.innerHTML = t.hint;
 
     function storeUrlForDevice() {
       var userAgent = navigator.userAgent || '';
@@ -93,7 +208,7 @@
       openButton.setAttribute('aria-disabled', 'true');
       openButton.addEventListener('click', function (event) { event.preventDefault(); });
       copyButton.disabled = true;
-      hint.textContent = '초대 코드가 없는 링크예요. 초대한 사람에게 새 링크를 요청해 주세요.';
+      hint.textContent = t.noCode;
     }
 
     copyButton.addEventListener('click', function () {
@@ -107,12 +222,12 @@
         range.selectNodeContents(codeElement);
         selection.removeAllRanges();
         selection.addRange(range);
-        copyButton.textContent = '코드를 선택했어요';
+        copyButton.textContent = t.selected;
       };
       var markCopied = function () {
         if (finished) { return; }
         finished = true;
-        copyButton.textContent = '복사했어요';
+        copyButton.textContent = t.copied;
       };
 
       if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
