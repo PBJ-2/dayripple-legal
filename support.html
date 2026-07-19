@@ -1,40 +1,22 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DayRipple 지원 · Support</title>
-  <script>
-    (function () {
-      try {
-        var q = new URLSearchParams(location.search).get('lang');
-        var stored = null; try { stored = localStorage.getItem('dr_lang'); } catch (e) {}
-        var nav = (navigator.language || 'en').toLowerCase();
-        var lang = (q === 'ko' || q === 'en') ? q : (stored === 'ko' || stored === 'en' ? stored : (nav.indexOf('ko') === 0 ? 'ko' : 'en'));
-        document.documentElement.setAttribute('data-lang', lang);
-        document.documentElement.lang = lang;
-        document.title = lang === 'ko' ? 'DayRipple 지원' : 'DayRipple Support';
-      } catch (e) {
-        document.documentElement.setAttribute('data-lang', 'ko');
-      }
-    })();
-  </script>
+  <script src="./legal-l10n.js" data-page="support" defer></script>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px 60px; line-height: 1.7; color: #24211f; }
     h1 { font-size: 26px; } h2 { font-size: 19px; margin-top: 30px; } a { color: #9a4f3f; }
-    .langbar { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 8px; }
+    .langbar { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; margin-bottom: 8px; }
     .langbar button { font: inherit; font-size: 13px; padding: 5px 12px; border: 1px solid #ddd; border-radius: 999px; background: #fff; color: #7a746e; cursor: pointer; }
-    html[data-lang="ko"] .langbar .b-ko, html[data-lang="en"] .langbar .b-en { background: #9a4f3f; color: #fff; border-color: #9a4f3f; }
-    [data-lang-content="en"] { display: none; }
-    html[data-lang="en"] [data-lang-content="en"] { display: block; }
-    html[data-lang="en"] [data-lang-content="ko"] { display: none; }
+    .langbar button.active { background: #9a4f3f; color: #fff; border-color: #9a4f3f; }
+    [data-lang-content] { display: none; }
+    html[data-lang="ko"] [data-lang-content="ko"], html[data-lang="en"] [data-lang-content="en"] { display: block; }
   </style>
 </head>
 <body>
-  <div class="langbar">
-    <button class="b-ko" onclick="drSetLang('ko')">한국어</button>
-    <button class="b-en" onclick="drSetLang('en')">English</button>
-  </div>
+  <div class="langbar" aria-label="Language"></div>
 
   <!-- 한국어 -->
   <div data-lang-content="ko">
@@ -70,13 +52,5 @@
     <p><a href="./index.html">Privacy Policy</a></p>
   </div>
 
-  <script>
-    function drSetLang(l) {
-      document.documentElement.setAttribute('data-lang', l);
-      document.documentElement.lang = l;
-      document.title = l === 'ko' ? 'DayRipple 지원' : 'DayRipple Support';
-      try { localStorage.setItem('dr_lang', l); } catch (e) {}
-    }
-  </script>
 </body>
 </html>
