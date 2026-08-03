@@ -22,6 +22,9 @@
   .code { font-size:32px; font-weight:800; letter-spacing:6px; color:var(--ink); }
   .btn { display:block; width:100%; padding:16px; border-radius:14px; border:none; font-size:16px;
     font-weight:700; cursor:pointer; text-decoration:none; margin-bottom:10px; }
+  /* .btn 의 display:block 이 UA 스타일시트의 [hidden]{display:none} 을 특정성으로 눌러버려
+     hidden 이 걸린 스토어 버튼이 그대로 보였다. 속성을 신뢰할 수 있게 명시적으로 이긴다. */
+  [hidden] { display:none !important; }
   .btn-primary { background:var(--coral); color:#fff; }
   .btn-copy { background:#fff; color:var(--ink); border:1px solid #EEF0F4; font-weight:600; font-size:14px; }
   .btn[aria-disabled="true"], .btn:disabled { opacity:0.45; cursor:default; }
@@ -38,8 +41,10 @@
       <div class="codelabel" id="t-codelabel">Invite code</div>
       <div class="code" id="code">------</div>
     </div>
-    <a class="btn btn-primary" id="openApp" href="#">Open in app</a>
+    <a class="btn btn-primary" id="openApp">Open in app</a>
     <button class="btn btn-copy" id="copyCode" type="button">Copy invite code</button>
+    <a class="btn btn-copy" id="desktopAppStore" hidden>Download on the App Store</a>
+    <a class="btn btn-copy" id="desktopPlayStore" hidden>Get it on Google Play</a>
     <p class="store-note" id="t-storenote">If the app isn't installed, you'll be taken to the store for your device.</p>
     <p class="hint" id="hint">If the app doesn't open, install it and enter the <b>invite code</b> to join.</p>
   </div>
@@ -53,77 +58,180 @@
         storeNote: '앱이 설치되어 있지 않으면 기기에 맞는 스토어로 이동합니다. 스토어 공개 전에는 설치 페이지가 열리지 않을 수 있어요.',
         hint: '앱이 안 열리면, 앱을 설치한 뒤 <b>초대 코드</b>를 직접 입력해도 참여할 수 있어요.',
         noCode: '초대 코드가 없는 링크예요. 초대한 사람에게 새 링크를 요청해 주세요.',
-        copied: '복사했어요', selected: '코드를 선택했어요' },
+        copied: '복사했어요', selected: '코드를 선택했어요',
+        desktopOpen: '휴대폰에서 열기',
+        desktopHint: '이 초대 링크는 휴대폰에서 열어야 DayRipple 앱으로 연결돼요. 아래 <b>초대 코드</b>를 복사해 앱에서 직접 입력할 수도 있어요.',
+        androidSoonButton: '안드로이드 출시 준비 중',
+        androidSoonHint: "안드로이드 버전은 출시를 준비하고 있어요. 1~2주 안에 Google Play에서 만날 수 있어요. 아래 <b>초대 코드</b>를 복사해 두면 출시되자마자 바로 참여할 수 있어요.",
+        appStore: 'App Store에서 다운로드', playStore: 'Google Play에서 다운로드' },
       en: { doc: 'en', pageTitle: 'DayRipple Invitation', title: "You're invited to our space",
         sub: 'A lighter way to share a calendar.<br />Open the app below to join right away.',
         codeLabel: 'Invite code', open: 'Open in app', copy: 'Copy invite code',
         storeNote: "If the app isn't installed, you'll be taken to the store for your device. Before public release the store page may not open.",
         hint: "If the app doesn't open, install it and enter the <b>invite code</b> to join.",
         noCode: 'This link has no invite code. Ask the person who invited you for a new link.',
-        copied: 'Copied', selected: 'Code selected' },
+        copied: 'Copied', selected: 'Code selected',
+        desktopOpen: 'Open on your phone',
+        desktopHint: 'This invite link needs to be opened on a phone to connect to the DayRipple app. You can also copy the <b>invite code</b> below and enter it directly in the app.',
+        androidSoonButton: 'Android version coming soon',
+        androidSoonHint: "The Android version is on its way and should arrive on Google Play within a week or two. Copy the <b>invite code</b> below and you can join as soon as it launches.",
+        appStore: 'Download on the App Store', playStore: 'Get it on Google Play' },
       ja: { doc: 'ja', pageTitle: 'DayRipple 招待', title: 'わたしたちのスペースへの招待が届いています',
         sub: '一緒に使う、いちばん軽いカレンダー。<br />下のボタンでアプリを開くとすぐ参加できます。',
         codeLabel: '招待コード', open: 'アプリで開く', copy: '招待コードをコピー',
         storeNote: 'アプリが未インストールの場合は、端末に合ったストアへ移動します。ストア公開前はページが開けないことがあります。',
         hint: 'アプリが開かない場合は、インストール後に<b>招待コード</b>を入力しても参加できます。',
         noCode: 'このリンクには招待コードがありません。招待した人に新しいリンクをお願いしてください。',
-        copied: 'コピーしました', selected: 'コードを選択しました' },
+        copied: 'コピーしました', selected: 'コードを選択しました',
+        desktopOpen: 'スマートフォンで開く',
+        desktopHint: 'この招待リンクはスマートフォンで開くとDayRippleアプリに接続します。下の<b>招待コード</b>をコピーして、アプリに直接入力することもできます。',
+        androidSoonButton: 'Android版は準備中です',
+        androidSoonHint: "Android版は現在準備中で、1〜2週間以内にGoogle Playで公開される予定です。下の<b>招待コード</b>をコピーしておくと、公開後すぐに参加できます。",
+        appStore: 'App Storeからダウンロード', playStore: 'Google Playで入手' },
       'zh-Hans': { doc: 'zh-Hans', pageTitle: 'DayRipple 邀请', title: '你被邀请加入我们的空间',
         sub: '一起使用的最轻便日历。<br />点击下方按钮打开应用即可加入。',
         codeLabel: '邀请码', open: '在应用中打开', copy: '复制邀请码',
         storeNote: '如果尚未安装应用，将跳转到适合你设备的商店。商店上架前页面可能无法打开。',
         hint: '如果应用没有打开，也可以安装后直接输入<b>邀请码</b>加入。',
         noCode: '此链接没有邀请码。请向邀请你的人索取新链接。',
-        copied: '已复制', selected: '已选中代码' },
+        copied: '已复制', selected: '已选中代码',
+        desktopOpen: '在手机上打开',
+        desktopHint: '请在手机上打开此邀请链接以连接 DayRipple 应用。你也可以复制下方的<b>邀请码</b>并在应用中直接输入。',
+        androidSoonButton: '安卓版即将推出',
+        androidSoonHint: "安卓版正在准备中，预计一到两周内在 Google Play 上线。先复制下方的<b>邀请码</b>，上线后即可立即加入。",
+        appStore: '在 App Store 下载', playStore: '在 Google Play 获取' },
       'zh-Hant': { doc: 'zh-Hant', pageTitle: 'DayRipple 邀請', title: '你被邀請加入我們的空間',
         sub: '一起使用的最輕便行事曆。<br />點下方按鈕開啟 App 即可加入。',
         codeLabel: '邀請碼', open: '在 App 中開啟', copy: '複製邀請碼',
         storeNote: '如果尚未安裝 App，將前往適合你裝置的商店。商店上架前頁面可能無法開啟。',
         hint: '如果 App 沒有開啟，也可以安裝後直接輸入<b>邀請碼</b>加入。',
         noCode: '此連結沒有邀請碼。請向邀請你的人索取新連結。',
-        copied: '已複製', selected: '已選取代碼' },
+        copied: '已複製', selected: '已選取代碼',
+        desktopOpen: '在手機上開啟',
+        desktopHint: '請在手機上開啟此邀請連結以連接 DayRipple App。你也可以複製下方的<b>邀請碼</b>，直接在 App 中輸入。',
+        androidSoonButton: 'Android 版即將推出',
+        androidSoonHint: "Android 版正在準備中，預計一到兩週內於 Google Play 上架。先複製下方的<b>邀請碼</b>，上架後即可立即加入。",
+        appStore: '在 App Store 下載', playStore: '在 Google Play 取得' },
       vi: { doc: 'vi', pageTitle: 'Lời mời DayRipple', title: 'Bạn được mời vào không gian của chúng ta',
         sub: 'Cuốn lịch gọn nhẹ nhất để dùng chung.<br />Mở ứng dụng bên dưới để tham gia ngay.',
         codeLabel: 'Mã mời', open: 'Mở trong ứng dụng', copy: 'Sao chép mã mời',
         storeNote: 'Nếu chưa cài ứng dụng, bạn sẽ được đưa đến cửa hàng phù hợp với thiết bị. Trước khi phát hành, trang có thể chưa mở được.',
         hint: 'Nếu ứng dụng không mở, hãy cài đặt rồi nhập <b>mã mời</b> để tham gia.',
         noCode: 'Liên kết này không có mã mời. Hãy xin người mời một liên kết mới.',
-        copied: 'Đã sao chép', selected: 'Đã chọn mã' },
+        copied: 'Đã sao chép', selected: 'Đã chọn mã',
+        desktopOpen: 'Mở trên điện thoại',
+        desktopHint: 'Hãy mở liên kết mời này trên điện thoại để kết nối với ứng dụng DayRipple. Bạn cũng có thể sao chép <b>mã mời</b> bên dưới và nhập trực tiếp trong ứng dụng.',
+        androidSoonButton: 'Phiên bản Android sắp ra mắt',
+        androidSoonHint: "Phiên bản Android đang được chuẩn bị và dự kiến có mặt trên Google Play trong một đến hai tuần. Hãy sao chép <b>mã mời</b> bên dưới để tham gia ngay khi ứng dụng ra mắt.",
+        appStore: 'Tải trên App Store', playStore: 'Tải trên Google Play' },
       es: { doc: 'es', pageTitle: 'Invitación de DayRipple', title: 'Te invitaron a nuestro espacio',
         sub: 'El calendario más ligero para compartir.<br />Abre la app con el botón para unirte al instante.',
         codeLabel: 'Código de invitación', open: 'Abrir en la app', copy: 'Copiar código de invitación',
         storeNote: 'Si no tienes la app instalada, irás a la tienda de tu dispositivo. Antes del lanzamiento puede que la página no abra.',
         hint: 'Si la app no se abre, instálala e introduce el <b>código de invitación</b> para unirte.',
         noCode: 'Este enlace no tiene código de invitación. Pide un enlace nuevo a quien te invitó.',
-        copied: 'Copiado', selected: 'Código seleccionado' },
+        copied: 'Copiado', selected: 'Código seleccionado',
+        desktopOpen: 'Abrir en el teléfono',
+        desktopHint: 'Abre este enlace de invitación en un teléfono para conectarte con la app DayRipple. También puedes copiar el <b>código de invitación</b> de abajo e introducirlo directamente en la app.',
+        androidSoonButton: 'La versión para Android llegará pronto',
+        androidSoonHint: "La versión para Android está en camino y llegará a Google Play en una o dos semanas. Copia el <b>código de invitación</b> de abajo y podrás unirte en cuanto se publique.",
+        appStore: 'Descargar en el App Store', playStore: 'Disponible en Google Play' },
       'pt-BR': { doc: 'pt-BR', pageTitle: 'Convite do DayRipple', title: 'Você foi convidado para o nosso espaço',
         sub: 'O calendário mais leve para usar juntos.<br />Abra o app no botão abaixo para participar na hora.',
         codeLabel: 'Código de convite', open: 'Abrir no app', copy: 'Copiar código de convite',
         storeNote: 'Se o app não estiver instalado, você irá para a loja do seu dispositivo. Antes do lançamento a página pode não abrir.',
         hint: 'Se o app não abrir, instale-o e digite o <b>código de convite</b> para participar.',
         noCode: 'Este link não tem código de convite. Peça um novo link para quem convidou você.',
-        copied: 'Copiado', selected: 'Código selecionado' },
+        copied: 'Copiado', selected: 'Código selecionado',
+        desktopOpen: 'Abrir no telefone',
+        desktopHint: 'Abra este link de convite em um telefone para se conectar ao app DayRipple. Você também pode copiar o <b>código de convite</b> abaixo e inseri-lo diretamente no app.',
+        androidSoonButton: 'A versão para Android chega em breve',
+        androidSoonHint: "A versão para Android está a caminho e deve chegar ao Google Play em uma ou duas semanas. Copie o <b>código de convite</b> abaixo para entrar assim que o app for lançado.",
+        appStore: 'Baixar na App Store', playStore: 'Disponível no Google Play' },
       de: { doc: 'de', pageTitle: 'DayRipple-Einladung', title: 'Du wurdest in unseren Bereich eingeladen',
         sub: 'Der leichteste Kalender zum Teilen.<br />Öffne die App über den Button und tritt direkt bei.',
         codeLabel: 'Einladungscode', open: 'In der App öffnen', copy: 'Einladungscode kopieren',
         storeNote: 'Ist die App nicht installiert, wirst du zum passenden Store weitergeleitet. Vor der Veröffentlichung ist die Store-Seite möglicherweise noch nicht verfügbar.',
         hint: 'Öffnet sich die App nicht, installiere sie und gib den <b>Einladungscode</b> ein, um beizutreten.',
         noCode: 'Dieser Link enthält keinen Einladungscode. Bitte die Person, die dich eingeladen hat, um einen neuen Link.',
-        copied: 'Kopiert', selected: 'Code markiert' },
+        copied: 'Kopiert', selected: 'Code markiert',
+        desktopOpen: 'Auf dem Smartphone öffnen',
+        desktopHint: 'Öffne diesen Einladungslink auf einem Smartphone, um die DayRipple-App zu verbinden. Du kannst auch den <b>Einladungscode</b> unten kopieren und direkt in der App eingeben.',
+        androidSoonButton: 'Android-Version kommt bald',
+        androidSoonHint: "Die Android-Version wird gerade vorbereitet und erscheint in ein bis zwei Wochen bei Google Play. Kopiere den <b>Einladungscode</b> unten, dann kannst du direkt nach dem Start beitreten.",
+        appStore: 'Im App Store laden', playStore: 'Bei Google Play herunterladen' },
       fr: { doc: 'fr', pageTitle: 'Invitation DayRipple', title: 'Tu es invité·e dans notre espace',
         sub: "L'agenda partagé le plus léger.<br />Ouvre l'app ci-dessous pour nous rejoindre tout de suite.",
         codeLabel: "Code d'invitation", open: "Ouvrir dans l'app", copy: "Copier le code d'invitation",
         storeNote: "Si l'app n'est pas installée, tu seras redirigé·e vers la boutique de ton appareil. Avant la sortie, il est possible que la page ne s'ouvre pas encore.",
         hint: "Si l'app ne s'ouvre pas, installe-la puis saisis le <b>code d'invitation</b> pour nous rejoindre.",
         noCode: "Ce lien ne contient pas de code d'invitation. Demande un nouveau lien à la personne qui t'a invité·e.",
-        copied: 'Copié', selected: 'Code sélectionné' },
+        copied: 'Copié', selected: 'Code sélectionné',
+        desktopOpen: 'Ouvrir sur téléphone',
+        desktopHint: 'Ouvre ce lien d’invitation sur un téléphone pour te connecter à l’app DayRipple. Tu peux aussi copier le <b>code d’invitation</b> ci-dessous et le saisir directement dans l’app.',
+        androidSoonButton: 'La version Android arrive bientôt',
+        androidSoonHint: "La version Android est en préparation et arrivera sur Google Play d’ici une à deux semaines. Copie le <b>code d’invitation</b> ci-dessous pour rejoindre l’espace dès sa sortie.",
+        appStore: 'Télécharger sur l’App Store', playStore: 'Disponible sur Google Play' },
       id: { doc: 'id', pageTitle: 'Undangan DayRipple', title: 'Kamu diundang ke ruang kita',
         sub: 'Kalender paling ringan untuk dipakai bersama.<br />Buka aplikasinya lewat tombol di bawah untuk langsung gabung.',
         codeLabel: 'Kode undangan', open: 'Buka di aplikasi', copy: 'Salin kode undangan',
         storeNote: 'Jika aplikasi belum terpasang, kamu akan diarahkan ke toko sesuai perangkatmu. Sebelum rilis, halamannya mungkin belum bisa dibuka.',
         hint: 'Jika aplikasi tidak terbuka, pasang dulu lalu masukkan <b>kode undangan</b> untuk gabung.',
         noCode: 'Tautan ini tidak punya kode undangan. Minta tautan baru ke orang yang mengundangmu.',
-        copied: 'Tersalin', selected: 'Kode dipilih' }
+        copied: 'Tersalin', selected: 'Kode dipilih',
+        desktopOpen: 'Buka di ponsel',
+        desktopHint: 'Buka tautan undangan ini di ponsel untuk terhubung ke aplikasi DayRipple. Kamu juga dapat menyalin <b>kode undangan</b> di bawah dan memasukkannya langsung di aplikasi.',
+        androidSoonButton: 'Versi Android segera hadir',
+        androidSoonHint: "Versi Android sedang disiapkan dan akan tersedia di Google Play dalam satu hingga dua minggu. Salin <b>kode undangan</b> di bawah agar kamu bisa langsung bergabung setelah rilis.",
+        appStore: 'Unduh di App Store', playStore: 'Dapatkan di Google Play' },
+      it: { doc: 'it', pageTitle: 'Invito DayRipple', title: 'Sei stato invitato nel nostro spazio',
+        sub: 'Il modo più leggero di condividere un calendario.<br />Apri l\'app qui sotto per unirti subito.',
+        codeLabel: 'Codice d\'invito', open: 'Apri nell\'app', copy: 'Copia il codice d\'invito',
+        storeNote: "Se l\'app non è installata, verrai portato allo store del tuo dispositivo. Prima del lancio pubblico la pagina dello store potrebbe non aprirsi.",
+        hint: "Se l\'app non si apre, installala e inserisci il <b>codice d'invito</b> per unirti.",
+        noCode: 'Questo link non contiene un codice d\'invito. Chiedi un nuovo link a chi ti ha invitato.',
+        copied: 'Copiato', selected: 'Codice selezionato',
+        desktopOpen: 'Apri dal telefono',
+        desktopHint: 'Questo link di invito va aperto da un telefono per collegarsi all\'app DayRipple. In alternativa puoi copiare il <b>codice d\'invito</b> qui sotto e inserirlo direttamente nell\'app.',
+        androidSoonButton: 'Versione Android in arrivo',
+        androidSoonHint: "La versione Android sta arrivando e dovrebbe essere su Google Play entro una o due settimane. Copia il <b>codice d'invito</b> qui sotto e potrai unirti appena esce.",
+        appStore: 'Scarica su App Store', playStore: 'Disponibile su Google Play' },
+      nl: { doc: 'nl', pageTitle: 'DayRipple-uitnodiging', title: 'Je bent uitgenodigd voor onze ruimte',
+        sub: 'De lichtste manier om een agenda te delen.<br />Open de app hieronder om meteen mee te doen.',
+        codeLabel: 'Uitnodigingscode', open: 'Openen in de app', copy: 'Uitnodigingscode kopiëren',
+        storeNote: "Als de app niet is geïnstalleerd, ga je naar de store van je apparaat. Vóór de publieke release opent de storepagina mogelijk nog niet.",
+        hint: "Opent de app niet? Installeer hem en vul de <b>uitnodigingscode</b> in om mee te doen.",
+        noCode: 'Deze link bevat geen uitnodigingscode. Vraag degene die je uitnodigde om een nieuwe link.',
+        copied: 'Gekopieerd', selected: 'Code geselecteerd',
+        desktopOpen: 'Openen op je telefoon',
+        desktopHint: 'Deze uitnodigingslink moet op een telefoon geopend worden om verbinding te maken met de DayRipple-app. Je kunt ook de <b>uitnodigingscode</b> hieronder kopiëren en die direct in de app invoeren.',
+        androidSoonButton: 'Android-versie komt eraan',
+        androidSoonHint: "De Android-versie is onderweg en staat naar verwachting binnen een week of twee in Google Play. Kopieer de <b>uitnodigingscode</b> hieronder, dan kun je meteen meedoen zodra hij er is.",
+        appStore: 'Download in de App Store', playStore: 'Ontdek het op Google Play' },
+      th: { doc: 'th', pageTitle: 'คำเชิญ DayRipple', title: 'คุณได้รับเชิญเข้าสู่พื้นที่ของเรา',
+        sub: 'วิธีแชร์ปฏิทินที่เบาที่สุด<br />เปิดแอปด้านล่างเพื่อเข้าร่วมทันที',
+        codeLabel: 'รหัสคำเชิญ', open: 'เปิดในแอป', copy: 'คัดลอกรหัสคำเชิญ',
+        storeNote: "หากยังไม่ได้ติดตั้งแอป ระบบจะพาไปยังสโตร์ของอุปกรณ์คุณ ก่อนเปิดตัวอย่างเป็นทางการ หน้าสโตร์อาจยังเปิดไม่ได้",
+        hint: "ถ้าแอปไม่เปิด ให้ติดตั้งแล้วกรอก<b>รหัสคำเชิญ</b>เพื่อเข้าร่วมก็ได้",
+        noCode: 'ลิงก์นี้ไม่มีรหัสคำเชิญ กรุณาขอลิงก์ใหม่จากผู้ที่เชิญคุณ',
+        copied: 'คัดลอกแล้ว', selected: 'เลือกรหัสแล้ว',
+        desktopOpen: 'เปิดบนโทรศัพท์ของคุณ',
+        desktopHint: 'ลิงก์คำเชิญนี้ต้องเปิดบนโทรศัพท์เพื่อเชื่อมต่อกับแอป DayRipple หรือจะคัดลอก<b>รหัสคำเชิญ</b>ด้านล่างแล้วกรอกในแอปโดยตรงก็ได้',
+        androidSoonButton: 'เวอร์ชัน Android กำลังจะมาเร็ว ๆ นี้',
+        androidSoonHint: "เวอร์ชัน Android กำลังจะมา คาดว่าจะขึ้น Google Play ภายในหนึ่งถึงสองสัปดาห์ คัดลอก<b>รหัสคำเชิญ</b>ด้านล่างไว้ แล้วเข้าร่วมได้ทันทีที่เปิดตัว",
+        appStore: 'ดาวน์โหลดบน App Store', playStore: 'ดาวน์โหลดได้ที่ Google Play' },
+      tr: { doc: 'tr', pageTitle: 'DayRipple daveti', title: 'Alanımıza davet edildin',
+        sub: 'Takvim paylaşmanın en hafif yolu.<br />Hemen katılmak için aşağıdan uygulamayı aç.',
+        codeLabel: 'Davet kodu', open: 'Uygulamada aç', copy: 'Davet kodunu kopyala',
+        storeNote: "Uygulama kurulu değilse cihazına uygun mağazaya yönlendirilirsin. Genel yayından önce mağaza sayfası açılmayabilir.",
+        hint: "Uygulama açılmazsa kur ve katılmak için <b>davet kodunu</b> gir.",
+        noCode: 'Bu bağlantıda davet kodu yok. Seni davet eden kişiden yeni bir bağlantı iste.',
+        copied: 'Kopyalandı', selected: 'Kod seçildi',
+        desktopOpen: 'Telefonunda aç',
+        desktopHint: 'Bu davet bağlantısının DayRipple uygulamasına bağlanabilmesi için telefonda açılması gerekir. Dilersen aşağıdaki <b>davet kodunu</b> kopyalayıp uygulamaya doğrudan girebilirsin.',
+        androidSoonButton: 'Android sürümü çok yakında',
+        androidSoonHint: "Android sürümü yolda; bir iki hafta içinde Google Play\'de olması bekleniyor. Aşağıdaki <b>davet kodunu</b> kopyala, yayınlanır yayınlanmaz katılabilirsin.",
+        appStore: 'App Store\'dan indir', playStore: 'Google Play\'den alın' }
     };
 
     function resolveLocale() {
@@ -140,6 +248,10 @@
         if (tag.indexOf('fr') === 0) { return 'fr'; }
         if (tag.indexOf('pt') === 0) { return 'pt-BR'; }
         if (tag.indexOf('id') === 0 || tag.indexOf('in') === 0) { return 'id'; }
+        if (tag.indexOf('it') === 0) { return 'it'; }
+        if (tag.indexOf('nl') === 0) { return 'nl'; }
+        if (tag.indexOf('th') === 0) { return 'th'; }
+        if (tag.indexOf('tr') === 0) { return 'tr'; }
         if (tag.indexOf('zh') === 0) {
           return /hant|-tw|-hk|-mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
         }
@@ -161,14 +273,24 @@
     var deepLink = 'dayripple://join?code=' + encodeURIComponent(raw);
     var appStoreUrl = 'https://apps.apple.com/app/id6785336978';
     var playStoreUrl = 'https://play.google.com/store/apps/details?id=com.dayripple.app';
+    // Google Play 프로덕션 공개 여부. 승인되면 이 한 줄만 true로 바꾸면 된다.
+    // false인 동안: 데스크톱 안내에 Play 버튼을 감추고, 안드로이드 기기에는 404 대신
+    // "출시 준비 중" 안내를 보여준다. true로 바꾸면 양쪽 다 정상 링크로 돌아간다.
+    var PLAY_STORE_LIVE = false;
     var codeElement = document.getElementById('code');
     var openButton = document.getElementById('openApp');
     var copyButton = document.getElementById('copyCode');
+    var desktopAppStore = document.getElementById('desktopAppStore');
+    var desktopPlayStore = document.getElementById('desktopPlayStore');
     var hint = document.getElementById('hint');
 
     openButton.textContent = t.open;
     copyButton.textContent = t.copy;
     hint.innerHTML = t.hint;
+
+    function isAndroidDevice() {
+      return /Android/i.test(navigator.userAgent || '');
+    }
 
     function storeUrlForDevice() {
       var userAgent = navigator.userAgent || '';
@@ -176,34 +298,66 @@
       if (/iPhone|iPad|iPod/i.test(userAgent) || isIPadOs) {
         return appStoreUrl;
       }
-      if (/Android/i.test(userAgent)) {
+      if (isAndroidDevice()) {
         return playStoreUrl;
       }
       return null;
     }
 
+    // 안드로이드 스토어 공개 전. 딥링크를 시도해봐야 앱이 없으니 무반응이고, 폴백은
+    // 404로 간다. 기다려야 한다는 사실과 지금 할 수 있는 것(코드 복사)을 알려준다.
+    function showAndroidComingSoon() {
+      openButton.textContent = t.androidSoonButton;
+      openButton.setAttribute('aria-disabled', 'true');
+      openButton.removeAttribute('href');
+      openButton.addEventListener('click', function (event) { event.preventDefault(); });
+      hint.innerHTML = t.androidSoonHint;
+      document.getElementById('t-storenote').hidden = true;
+    }
+
+    function showDesktopInviteActions() {
+      openButton.textContent = t.desktopOpen;
+      openButton.setAttribute('aria-disabled', 'true');
+      openButton.removeAttribute('href');
+      openButton.addEventListener('click', function (event) { event.preventDefault(); });
+      hint.innerHTML = t.desktopHint;
+      document.getElementById('t-storenote').hidden = true;
+      desktopAppStore.textContent = t.appStore;
+      desktopAppStore.setAttribute('href', appStoreUrl);
+      desktopAppStore.hidden = false;
+      if (PLAY_STORE_LIVE) {
+        desktopPlayStore.textContent = t.playStore;
+        desktopPlayStore.setAttribute('href', playStoreUrl);
+        desktopPlayStore.hidden = false;
+      }
+    }
+
     if (raw) {
       codeElement.textContent = raw;
-      openButton.setAttribute('href', deepLink);
-      openButton.addEventListener('click', function (event) {
-        var storeUrl = storeUrlForDevice();
-        if (!storeUrl) { return; }
-
-        event.preventDefault();
-        var fallbackTimer = setTimeout(function () {
-          if (document.visibilityState === 'visible') {
-            location.href = storeUrl;
-          }
-        }, 1600);
-        var cancelFallback = function () {
-          if (document.hidden) {
-            clearTimeout(fallbackTimer);
-          }
-        };
-        document.addEventListener('visibilitychange', cancelFallback, { once: true });
-        window.addEventListener('pagehide', function () { clearTimeout(fallbackTimer); }, { once: true });
-        location.href = deepLink;
-      });
+      var storeUrl = storeUrlForDevice();
+      if (isAndroidDevice() && !PLAY_STORE_LIVE) {
+        showAndroidComingSoon();
+      } else if (!storeUrl) {
+        showDesktopInviteActions();
+      } else {
+        openButton.setAttribute('href', deepLink);
+        openButton.addEventListener('click', function (event) {
+          event.preventDefault();
+          var fallbackTimer = setTimeout(function () {
+            if (document.visibilityState === 'visible') {
+              location.href = storeUrl;
+            }
+          }, 1600);
+          var cancelFallback = function () {
+            if (document.hidden) {
+              clearTimeout(fallbackTimer);
+            }
+          };
+          document.addEventListener('visibilitychange', cancelFallback, { once: true });
+          window.addEventListener('pagehide', function () { clearTimeout(fallbackTimer); }, { once: true });
+          location.href = deepLink;
+        });
+      }
     } else {
       openButton.setAttribute('aria-disabled', 'true');
       openButton.addEventListener('click', function (event) { event.preventDefault(); });
